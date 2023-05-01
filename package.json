@@ -1,0 +1,14 @@
+{
+  "name": "cj_deal_importer",
+  "version": "1.0.0",
+  "description": "clean cj deals",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "LifeWise Digital, Inc.",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^3.0.0"
+  }
+}
