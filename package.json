@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "clean cj deals",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "LifeWise Digital, Inc.",
   "license": "ISC",
   "dependencies": {
-    "csv-parser": "^3.0.0"
+    "csv-parser": "^3.0.0",
+    "yargs": "^17.7.2"
   }
 }
