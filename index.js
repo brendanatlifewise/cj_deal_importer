@@ -22,7 +22,7 @@ fs.createReadStream(`${folder}//${file}`)
   })
   .on("end", async function () {
  await Promise.all(data.map(async (r) => {
-        const imgSrc = r["ImgSrc"].toString().match(/img src="([^"]+)"/g);
+        const imgSrc = r["ImgSrc"].toString().match(/img src[^=]*="([^"]+)"/g);
         r["imgSrc"] = imgSrc[0];
         fs.writeFile(`${folder}//${file}`, r, 'utf8', function (err) {
             if (err) return console.log(err);
