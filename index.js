@@ -16,26 +16,33 @@ const folder = `${options.csv}`;
 
 console.log('NEW RUN \n\n\n\n\n\n\n\n');
 
+
 fs.readdir(folder, (err, files) => {
     files.forEach((file) => { 
       
-        const filePath = `${folder}//${file}`;
+        const filePath = `${folder}/${file}`;
         
-
-        fs.readFile(filePath,'utf-8',  (err,data) =>{
+        let cleanImgSrc;
+        fs.readFile(filePath,'utf8',  (err,data) =>{
            
             var dataArray = data.split(',');
-            var noExtraCommas = dataArray.filter(x => x != '');
-            var cleanImgSrc = noExtraCommas.map((x) => {
+            var noEmptyFields = dataArray.filter(x => x != '');
+            cleanImgSrc = noEmptyFields.map((x) => {
                 if(x.includes('img src=')) {
-                 console.log(x.match(/img src[^=]*="([^"]+)"/));
-                 return null
+                    
+                    
+                 var match = x.match(/img src[^=]*=""([^""]+)""/);
+           
+                 return match ? match[1] : x; 
                 }
                 return x;
             });
-            //console.log(cleanImgSrc);
-        
+            console.log(`FILE PATH: ${filePath}`);
+            fs.writeFile(filePath, cleanImgSrc.join(','), null, ()=>{});
+            exec(`mongoimport --uri "mongodb+srv://davie-deals-node-server:cvTrNbdzA7sAvNIj@davie-deals.ltkcsre.mongodb.net/development?authSource=admin&replicaSet=atlas-ofdyqw-shard-0&ssl=true" --collection deals --headerline --type csv ${filePath}`);
         });
+
+        
     });
 });
     
