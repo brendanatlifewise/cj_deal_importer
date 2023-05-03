@@ -10,24 +10,17 @@ const options = yargs(process.argv.slice(2))
  // Take folder name path from args
 const folder = `${options.csv}`;
 
-fs.readdir(folder, (err, files) => {
+fs.readdir(folder, (_, files) => {
     files.forEach((file) => { 
       
         const filePath = `${folder}/${file}`;
         
-        let cleanImgSrc;
         fs.readFile(filePath,'utf8',  (_, data) =>{
-           
-            var dataArray = data.split(',');
-            var noEmptyFields = dataArray.filter(x => x != '');
-            cleanImgSrc = noEmptyFields.map((x) => {
-                if(x.includes('img src=')) {    
-                 var match = x.match(/img src[^=]*=""([^""]+)""/);
-           
-                 if(match) return match[1]; 
-                }
-
-                return x;
+            const dataArray = data.split(',');
+            const noEmptyFields = dataArray.filter(x => x != '');
+            const cleanImgSrc = noEmptyFields.map((x) => {
+                const match = x.match(/img src[^=]*=""([^""]+)""/);
+                return match ? match[1] : x;
             });
             console.log(`FILE PATH: ${filePath}`);
             fs.writeFile(filePath, cleanImgSrc.join(','), null, ()=>{});
@@ -35,4 +28,3 @@ fs.readdir(folder, (err, files) => {
         });        
     });
 });
-    
